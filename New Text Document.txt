@@ -1,0 +1,85 @@
+CREATE TABLE Contribuire
+(
+	id_contribuire       INTEGER NOT NULL,
+	id_retea             INTEGER NOT NULL,
+	id_utilizator        INTEGER NOT NULL,
+	data_creat           DATE NOT NULL,
+	este_arhivat         TINYINT NOT NULL
+);
+
+ALTER TABLE Contribuire
+ADD CONSTRAINT XPKContribuire PRIMARY KEY (id_contribuire);
+
+CREATE TABLE Perceptron
+(
+	id_perceptron        INTEGER NOT NULL,
+	id_perceptron_descendent INTEGER NULL,
+	greutatea            INTEGER NULL
+);
+
+ALTER TABLE Perceptron
+ADD CONSTRAINT XPKPerceptron PRIMARY KEY (id_perceptron);
+
+CREATE TABLE Retea
+(
+	id_retea             INTEGER NOT NULL,
+	denumire             VARCHAR(20) NOT NULL,
+	descrierea           VARCHAR(20) NULL,
+	tipul_algoritmului   VARCHAR(20) NOT NULL,
+	contor_utilizari     INTEGER NOT NULL,
+	data_creat           DATE NOT NULL,
+	data_actualizat      DATE NOT NULL,
+	este_arhivat         CHAR(18) NOT NULL
+);
+
+ALTER TABLE Retea
+ADD CONSTRAINT XPKRetea PRIMARY KEY (id_retea);
+
+CREATE TABLE Strat
+(
+	id_strat             INTEGER NOT NULL,
+	id_retea             INTEGER NOT NULL,
+	id_strat_descendent  INTEGER NULL,
+	id_perceptron        INTEGER NOT NULL,
+	ld_perceptron        INTEGER NULL
+);
+
+ALTER TABLE Strat
+ADD CONSTRAINT XPKStrat PRIMARY KEY (id_strat);
+
+CREATE TABLE Utilizator
+(
+	id_utilizator        INTEGER NOT NULL,
+	nume                 VARCHAR(20) NOT NULL,
+	prenume              VARCHAR(20) NULL,
+	nume_de_utilizator   VARCHAR(50) NOT NULL,
+	parola               VARCHAR(20) NOT NULL,
+	data_creat           DATE NOT NULL,
+	data_actualizat      DATE NULL,
+	este_arhivat         TINYINT NOT NULL,
+	email                VARCHAR(50) NOT NULL
+);
+
+ALTER TABLE Utilizator
+ADD CONSTRAINT XPKUtilizator PRIMARY KEY (id_utilizator);
+
+ALTER TABLE Contribuire
+ADD CONSTRAINT R_1 FOREIGN KEY (id_utilizator) REFERENCES Utilizator (id_utilizator);
+
+ALTER TABLE Contribuire
+ADD CONSTRAINT R_2 FOREIGN KEY (id_retea) REFERENCES Retea (id_retea);
+
+ALTER TABLE Perceptron
+ADD CONSTRAINT R_6 FOREIGN KEY (id_perceptron) REFERENCES Perceptron (id_perceptron);
+
+ALTER TABLE Strat
+ADD CONSTRAINT R_3 FOREIGN KEY (id_retea) REFERENCES Retea (id_retea);
+
+ALTER TABLE Strat
+ADD CONSTRAINT R_4 FOREIGN KEY (id_strat) REFERENCES Strat (id_strat);
+
+ALTER TABLE Strat
+ADD CONSTRAINT R_5 FOREIGN KEY (id_perceptron) REFERENCES Perceptron (id_perceptron);
+
+ALTER TABLE Strat
+ADD CONSTRAINT R_7 FOREIGN KEY (id_perceptron) REFERENCES Perceptron (id_perceptron);
